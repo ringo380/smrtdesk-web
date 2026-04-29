@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy — SmrtDesk</title>
+<meta name="description" content="What SmrtDesk reads, where it sends it, and what we don't store.">
+<style>
+  :root { color-scheme: light dark; --accent: #4d57c7; --bg: #fafafa; --fg: #111; --muted: #666; --border: #e2e2e2; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #0e0f12; --fg: #f0f0f0; --muted: #aaa; --border: #2a2b30; } }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font: 16px/1.6 -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+  main { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+  header { display: flex; align-items: center; gap: 12px; margin-bottom: 3rem; }
+  header a { text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+  .logo { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), #2c9fa8); display: grid; place-items: center; color: #fff; font-weight: 800; }
+  .brand { font-size: 16px; font-weight: 700; }
+  h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 0.4rem; }
+  .updated { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; }
+  h2 { margin-top: 2.5rem; font-size: 1.15rem; letter-spacing: -0.01em; }
+  ul { padding-left: 1.3rem; }
+  ul li { margin: 0.5rem 0; }
+  code { background: rgba(125,125,125,0.15); padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+  a { color: var(--accent); }
+  .footer-links { display: flex; gap: 1.5rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); font-size: 0.92rem; color: var(--muted); }
+  .footer-links a { color: var(--muted); text-decoration: none; border-bottom: 1px dotted currentColor; }
+</style>
+</head>
+<body>
+<main>
+  <header><a href="/"><div class="logo">SD</div><div class="brand">SmrtDesk</div></a></header>
+
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: 2026-04-27.</p>
+
+  <p>SmrtDesk is a native macOS app. It does not have a server-side product; the only piece of cloud infrastructure we operate is a stateless Cloudflare Worker that relays voice commands from Amazon Alexa to your Mac. Everything else is either local to your computer or talks directly to the smart-home provider you have an account with.</p>
+
+  <p>This document explains, in plain language, what SmrtDesk reads, where it sends it, and what we do — and don't — store.</p>
+
+  <h2>What stays on your Mac</h2>
+  <ul>
+    <li>Discovery of Hue bridges, Sonos speakers, Shelly devices, HomeKit accessory bridges, and Home Assistant servers happens over Bonjour / mDNS on your local network. Discovery results never leave your Mac.</li>
+    <li>Every command you issue to a HomeKit, Hue, Kasa, Shelly, or Home Assistant device travels directly from your Mac to the device or hub, over your Wi-Fi. SmrtDesk has no server in this path.</li>
+    <li>Crash reports, hang reports, and CPU/disk-write diagnostics are collected by Apple's MetricKit and saved to <code>~/Library/Application Support/SmrtDesk/diagnostics/events.jsonl</code>. This file is never uploaded by SmrtDesk. Apple may forward aggregated diagnostics to us only if you have explicitly opted in to <em>Share with App Developers</em> in System Settings → Privacy &amp; Security → Analytics &amp; Improvements.</li>
+    <li>Cloud-provider OAuth tokens and API keys are stored in the macOS Keychain (<code>keychain-access-groups</code>), encrypted at rest, and never copied off your Mac.</li>
+  </ul>
+
+  <h2>What goes to third parties</h2>
+  <ul>
+    <li><strong>Cloud-only smart-home providers</strong>: Govee, SmartThings, Ecobee, LIFX (cloud mode), Sonos, Tuya, and the optional Shelly Cloud fallback all require API calls. Those calls go from your Mac directly to the provider's API. We never proxy them.</li>
+    <li><strong>Apple iCloud (CloudKit)</strong>: If iCloud Drive is enabled on your Mac, SmrtDesk syncs your user-defined scenes, rooms, and provider configuration to your private iCloud database so a second Mac sees the same setup. Apple is the data controller; their privacy policy applies.</li>
+    <li><strong>Amazon Alexa Skill (optional)</strong>: If you sign in to the SmrtDesk Skill, Amazon associates your Amazon account with a per-installation identifier. When you say "Alexa, tell SmrtDesk to run <em>X</em>", Alexa sends the intent to our Cloudflare Worker, which forwards a silent push notification to your Mac. The Worker stores only an opaque APNs device token (rotated when you uninstall), a per-installation machine id, and the scene names you have published to the Skill. No name, email address, location, or device inventory is stored on the Worker.</li>
+  </ul>
+
+  <h2>What we don't do</h2>
+  <ul>
+    <li>No analytics. SmrtDesk does not bundle Mixpanel, Amplitude, Sentry, Crashlytics, Firebase, or any other analytics SDK.</li>
+    <li>No advertising identifiers. SmrtDesk does not access IDFA or any comparable identifier.</li>
+    <li>No selling, no sharing. We have no business relationship that involves your data leaving us. We have no servers that store your data, with the narrow exception of the Alexa Worker described above.</li>
+    <li>No tracking across apps or websites.</li>
+  </ul>
+
+  <h2>Data subject rights</h2>
+  <p>You can delete every piece of state SmrtDesk has on your Mac by:</p>
+  <ol>
+    <li>Quitting SmrtDesk.</li>
+    <li>Deleting <code>~/Library/Application Support/SmrtDesk</code> (settings, diagnostics).</li>
+    <li>Removing SmrtDesk Keychain entries: open Keychain Access, search <code>smrtdesk</code>, delete matching items.</li>
+    <li>In iCloud → Manage Storage, removing the SmrtDesk container if present.</li>
+    <li>In the Alexa app, disabling the SmrtDesk Skill (this clears the Worker's record of your APNs token within 24 hours).</li>
+  </ol>
+
+  <h2>Contact</h2>
+  <p>Questions or requests can go to <a href="mailto:support@smrtdesk.online">support@smrtdesk.online</a>.</p>
+
+  <nav class="footer-links">
+    <a href="/">Home</a>
+    <a href="/support/">Support</a>
+    <a href="https://github.com/ringo380/smrtdesk">GitHub</a>
+  </nav>
+</main>
+</body>
+</html>

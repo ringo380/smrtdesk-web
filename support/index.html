@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support — SmrtDesk</title>
+<meta name="description" content="Get help with SmrtDesk for macOS.">
+<style>
+  :root { color-scheme: light dark; --accent: #4d57c7; --bg: #fafafa; --fg: #111; --muted: #666; --border: #e2e2e2; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #0e0f12; --fg: #f0f0f0; --muted: #aaa; --border: #2a2b30; } }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font: 16px/1.6 -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+  main { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+  header { display: flex; align-items: center; gap: 12px; margin-bottom: 3rem; }
+  header a { text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+  .logo { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), #2c9fa8); display: grid; place-items: center; color: #fff; font-weight: 800; }
+  .brand { font-size: 16px; font-weight: 700; }
+  h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 0.6rem; }
+  h2 { margin-top: 2.5rem; font-size: 1.15rem; letter-spacing: -0.01em; }
+  ul { padding-left: 1.3rem; }
+  ul li { margin: 0.5rem 0; }
+  code { background: rgba(125,125,125,0.15); padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+  a { color: var(--accent); }
+  .card { border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem 1.5rem 1rem; margin: 1.5rem 0; background: rgba(125, 125, 125, 0.03); }
+  .footer-links { display: flex; gap: 1.5rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); font-size: 0.92rem; color: var(--muted); }
+  .footer-links a { color: var(--muted); text-decoration: none; border-bottom: 1px dotted currentColor; }
+</style>
+</head>
+<body>
+<main>
+  <header><a href="/"><div class="logo">SD</div><div class="brand">SmrtDesk</div></a></header>
+
+  <h1>Support</h1>
+  <p>Need help with SmrtDesk on macOS? Pick the channel that fits your question.</p>
+
+  <div class="card">
+    <h2 style="margin-top:0;">Email</h2>
+    <p>Direct line for installation, signing, or notarization questions.<br>
+    <a href="mailto:support@smrtdesk.online">support@smrtdesk.online</a></p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0;">GitHub Issues</h2>
+    <p>Bug reports and feature requests are tracked in the public repo.<br>
+    <a href="https://github.com/ringo380/smrtdesk/issues">github.com/ringo380/smrtdesk/issues</a></p>
+  </div>
+
+  <h2>What to include in a support request</h2>
+  <ul>
+    <li>Your macOS version (<code>sw_vers</code>) and SmrtDesk version (About → SmrtDesk).</li>
+    <li>Which provider(s) are misbehaving (Hue, Sonos, HomeKit, Home Assistant, etc.).</li>
+    <li>If a crash: the most recent entry in <code>~/Library/Application Support/SmrtDesk/diagnostics/events.jsonl</code> or a screenshot of the in-app Diagnostics view.</li>
+    <li>Whether the issue happens on local-network operations or only cloud ones.</li>
+  </ul>
+
+  <h2>Common fixes</h2>
+  <ul>
+    <li><strong>Hue bridge not discovered</strong>: macOS Local Network permission. System Settings → Privacy &amp; Security → Local Network → enable SmrtDesk.</li>
+    <li><strong>Cloud provider repeatedly asks to re-auth</strong>: Keychain entry may be stale. Quit SmrtDesk, open Keychain Access, search <code>smrtdesk</code>, delete the entry for that provider, relaunch and sign in again.</li>
+    <li><strong>Alexa scene says "I can't find that"</strong>: scene names take ~5 minutes to propagate after publishing. Re-link the SmrtDesk Skill in the Alexa app if it persists.</li>
+  </ul>
+
+  <nav class="footer-links">
+    <a href="/">Home</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="https://github.com/ringo380/smrtdesk">GitHub</a>
+  </nav>
+</main>
+</body>
+</html>
