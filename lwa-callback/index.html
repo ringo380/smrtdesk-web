@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Returning to SmrtDesk…</title>
+<link rel="icon" href="/favicon.ico">
+<style>
+  :root { color-scheme: light dark; --accent: #4d57c7; --bg: #fafafa; --fg: #111; --muted: #666; --border: #e2e2e2; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #0e0f12; --fg: #f0f0f0; --muted: #aaa; --border: #2a2b30; } }
+  html, body { margin: 0; padding: 0; }
+  body { font: 16px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+  main { max-width: 520px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; }
+  h1 { font-size: 1.6rem; letter-spacing: -0.02em; margin: 0 0 0.6rem; }
+  p { color: var(--muted); margin: 0.4rem 0; }
+  a.cta { display: inline-block; margin-top: 1.2rem; padding: 0.6rem 1.1rem; border-radius: 8px; background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; }
+  .logo { width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), #2c9fa8); display: inline-grid; place-items: center; color: #fff; font-weight: 800; margin-bottom: 1rem; }
+</style>
+</head>
+<body>
+<main>
+  <div class="logo">SD</div>
+  <h1>Returning to SmrtDesk…</h1>
+  <p id="status">Sending you back to the app.</p>
+  <p><a class="cta" id="manual" href="#">Open SmrtDesk</a></p>
+</main>
+<script>
+  // Bouncer for the Login-with-Amazon authorization-code grant. Amazon
+  // redirects here with `?code=…&state=…&scope=…`. We forward the same
+  // query string to the smrtdesk:// custom scheme so
+  // ASWebAuthenticationSession (callbackURLScheme: "smrtdesk") can
+  // capture the result and close the auth session inside the macOS app.
+  (function () {
+    var search = window.location.search || "";
+    var target = "smrtdesk://lwa-callback" + search;
+    var manual = document.getElementById("manual");
+    manual.setAttribute("href", target);
+    // Defer slightly so users see the "Returning…" message.
+    setTimeout(function () { window.location.replace(target); }, 250);
+  })();
+</script>
+</main>
+</body>
+</html>
